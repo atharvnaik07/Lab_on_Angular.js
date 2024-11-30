@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html ng-app="loginApp">
+ <head>
+ <title>Login</title>
+<script
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+ <style>
+ body { background: burlywood; display: flex; justify-content: center; align-items: center;
+height: 100vh; margin: 0; }
+ .form-container { background: chocolate; padding: 70px; border-radius: 8px; box-shadow: 0 0 10px black; text-align: center; }
+ .error { color: red; }
+ form.ng-pristine.ng-invalid.ng-invalid-required { display: flex; flex-direction: column; }
+ button { color: red; padding: 9px; border-radius: 20px; }
+ </style>
+ </head>
+ <body ng-controller="loginCtrl">
+ <div class="form-container">
+ <h2>Firewall Authentication</h2>
+ <form name="loginForm" ng-submit="submitForm()" novalidate>
+ <label>Username: <input type="text" name="username" ng-model="user.username" required>
+ <span class="error" ng-show="loginForm.username.$dirty && loginForm.username.$invalid">Required</span>
+
+</label>
+ <label>Password: <input type="password" name="password" ngmodel="user.password" required>
+
+<span class="error" ng-show="loginForm.password.$dirty && loginForm.password.$invalid">Required</span>
+ </label>
+ <button type="submit" ng-disabled="loginForm.$invalid">Login</button>
+ <div ng-show="loginSuccess" style="color: black;">Login Successful!</div>
+ </form>
+ </div>
+ <script>
+    angular.module('loginApp', []).controller('loginCtrl', function($scope) {
+    $scope.submitForm = function() {
+                $scope.loginSuccess = $scope.user.username === 'student' && $scope.user.password === 'icoet';
+                if (!$scope.loginSuccess) $scope.user = {};
+ };
+ });
+ </script>
+</body>
+</html>

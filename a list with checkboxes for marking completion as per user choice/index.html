@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task List</title>
+ <style>
+body { font-family: Arial, sans-serif; }
+.task-list { list-style: none; padding: 0; }
+.task-item { margin: 5px 0; display: flex; align-items: center; }
+.task-item label { margin-left: 10px; }
+.completed label { text-decoration: line-through; color: gray; }
+.add-task, .subject-select { margin: 10px 0; }
+</style>
+</head>
+ <body>
+<h1>Task List</h1>
+<div class="subject-select">
+<label for="subject-select">Select Subject:</label>
+<select id="subject-select">
+<option>AngularJS</option>
+<option>E-Commerce</option>
+<option>Cloud Computing</option>
+</select>
+</div>
+<input type="text" id="task-input" placeholder="New task">
+<button onclick="addTask()">Add Task</button>
+<h2>Tasks</h2>
+<ul id="task-list" class="task-list"></ul>
+<script>
+function addTask() {
+
+const taskText = document.getElementById('task-input').value.trim();
+if (!taskText) return;
+ const subject = document.getElementById('subject-select').value;
+const taskItem = document.createElement('li');
+taskItem.className = 'task-item';
+taskItem.innerHTML = `
+<input type="checkbox" onclick="toggleCompletion(this)">
+<label>${taskText} - <strong>${subject}</strong></label>
+<button onclick="removeTask(this)">Remove</button>
+`; document.getElementById('task-list').appendChild(taskItem);
+document.getElementById('task-input').value = '';
+}
+ function toggleCompletion(checkbox) {
+checkbox.parentElement.classList.toggle('completed', checkbox.checked);
+}
+function removeTask(button) {
+button.parentElement.remove();
+}
+</script>
+</body>
+</html>

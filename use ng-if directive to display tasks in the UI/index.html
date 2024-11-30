@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html ng-app="taskApp">
+<head>
+<meta charset="UTF-8">
+<title>Task List</title>
+<scriptsrc="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js">
+</script>
+<script>
+// AngularJS application setup
+var app = angular.module('taskApp', []);
+app.controller('TaskController', function($scope) {
+$scope.tasks = [
+{ name: 'Complete assignment', done: true },
+{ name: 'Read a book', done: true },
+{ name: 'Go for a walk', done: false }
+];
+});
+</script>
+</head>
+<body ng-controller="TaskController">
+<h2>Tasks to Complete</h2>
+<ul>
+<li ng-repeat="task in tasks" ng-if="!task.done">Go for a walk</li>
+</ul>
+<h2>Completed Tasks</h2>
+<ul>
+<li ng-repeat="task in tasks" ng-if="task.done">Complete assignment</li>
+<li ng-repeat="task in tasks" ng-if="task.done">Read a book</li>
+</ul>
+</body>
+</html>

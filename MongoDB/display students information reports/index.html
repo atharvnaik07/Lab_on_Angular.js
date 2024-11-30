@@ -1,0 +1,55 @@
+<!DOCTYPE html> 
+<html lang="en" ng-app="studentApp"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">     <title>Student Manager</title> 
+    <script 
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script> 
+    <script> 
+        const app = angular.module('studentApp', []); 
+ 
+        app.controller('studentController', function($scope, $http) { 
+            $scope.students = []; 
+            $scope.sortOrder = 'asc'; // Default sort order 
+ 
+ 
+ 
+ // Load students with the specified sorting order 
+            $scope.loadStudents = function() { 
+                $http.get(`http://localhost:3000/students?sortOrder=${$scope.sortOrder}`) 
+                    .then(function(response) { 
+                        $scope.students = response.data; 
+                    }); 
+            }; 
+ 
+            // Change sort order and reload students 
+            $scope.changeSortOrder = function(order) { 
+                $scope.sortOrder = order; 
+                $scope.loadStudents(); 
+            }; 
+ 
+            // Initialize 
+            $scope.loadStudents(); 
+        }); 
+    </script> 
+</head> 
+<body ng-controller="studentController"> 
+    <h1>Student Manager</h1> 
+ 
+    <div> 
+        <h2>Sort By Age:</h2> 
+        <button ng-click="changeSortOrder('asc')">Ascending</button> 
+        <button ng-click="changeSortOrder('desc')">Descending</button>     </div> 
+ 
+    <div> 
+        <h2>Students</h2> 
+        <ul> 
+<li ng-repeat="student in students"> 
+ 
+ 
+ <strong>{{ student.name }}</strong> - {{ student.age }} - {{ student.course }} - {{ student.year }} 
+            </li> 
+        </ul> 
+    </div> 
+</body> 
+</html> 

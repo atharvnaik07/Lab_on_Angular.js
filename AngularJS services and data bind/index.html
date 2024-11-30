@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+ <head>
+<title>Data Binding Example</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script>
+angular.module('myApp', [])
+.service('UserService', function() {
+this.getUserData = () => ({ name: 'SSBT COET', email: 'ssbtcoer@example.com' });
+})
+.controller('MainController', ['$scope', 'UserService', function($scope, UserService) {
+$scope.title = 'AngularJS Example';
+$scope.userData = UserService.getUserData();
+$scope.user = { name: '' };
+}]);
+</script>
+</head>
+<body ng-controller="MainController">
+<h1>{{ title }}</h1>
+<label>Enter your name:</label>
+<input type="text" ng-model="user.name">
+<h2>Welcome, {{ user.name }}!</h2>
+<h3>Stored Data from Service:</h3>
+<p>Name: {{ userData.name }}</p>
+<p>Email: {{ userData.email }}</p>
+</body>
+</html>

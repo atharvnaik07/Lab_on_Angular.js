@@ -1,0 +1,282 @@
+C:\Users\user>mongods    // create database
+
+test> show dbs
+admin   40.00 KiB
+config  96.00 KiB
+dbs     40.00 KiB
+harish  72.00 KiB
+local   72.00 KiB
+rohan   72.00 KiB
+
+test> use Durgesh   // using Durgesh database & create a Durgesh database
+switched to db Durgesh
+
+durgesh> db.createCollection("durgesh")    // create collection 
+
+  
+durgesh> db.a.insertOne([{name: "h", age: 24, course: "bca" }])              // insertion only one data
+{
+  acknowledged: true,
+  insertedId: ObjectId('66de8f70e8696d0a922710bc')
+}
+
+
+
+
+durgesh> db.durgesh.insertMany([{ name:"atharv", age: 21, course:"bca", city:"dxg"},{ name:"harish", age: 22, course:"iti", city:"bsl"},{ name:"durgesh", age: 21, course:"it", city: "cns"}])                                                                       // insert many data 
+
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('66dfe9f556d0d687272710bc'),
+    '1': ObjectId('66dfe9f556d0d687272710bd'),
+    '2': ObjectId('66dfe9f556d0d687272710be')
+  }
+}
+
+
+durgesh> db.durgesh.find()                // finding data
+[
+  {
+    _id: ObjectId('66dfe9f556d0d687272710bc'),
+    name: 'atharv',
+    age: 21,
+    course: 'bca',
+    city: 'dxg'
+  },
+  {
+    _id: ObjectId('66dfe9f556d0d687272710bd'),
+    name: 'harish',
+    age: 22,
+    course: 'iti',
+    city: 'bsl'
+  },
+  {
+    _id: ObjectId('66dfe9f556d0d687272710be'),
+    name: 'durgesh',
+    age: 21,
+    course: 'it',
+    city: 'cns'
+  }
+]
+
+
+harish> db.a.find({name:"x"})                      // finding only specific records
+[
+  {
+    _id: ObjectId('66de9260291b05d4ff2710be'),
+    name: 'x',
+harish>
+    course: 'be'
+  }
+]
+
+
+
+durgesh> db.durgesh.updateOne({name:"atharv"}, {$set:{age:23}})            // update one 
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+harish> db.a.updateMany({ name: "x" },{$set: { age: "99"}})                                             // upadate many records at a time
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+
+durgesh> db.durgesh.find().sort({age:1})                  // sorting with Ascending order 
+[
+  {
+    _id: ObjectId('66dfe9f556d0d687272710be'),
+    name: 'durgesh',
+    age: 21,
+    course: 'it',
+    city: 'cns'
+  },
+  {
+    _id: ObjectId('66dfe9f556d0d687272710bd'),
+    name: 'harish',
+    age: 22,
+    course: 'iti',
+    city: 'bsl'
+  },
+  {
+    _id: ObjectId('66dfe9f556d0d687272710bc'),
+    name: 'atharv',
+    age: 23,
+    course: 'bca',
+    city: 'dxg'
+  }
+]
+durgesh> db.durgesh.find().sort({age:-1})                         // sorting with Descending order
+[
+  {
+    _id: ObjectId('66dfe9f556d0d687272710bc'),
+    name: 'atharv',
+    age: 23,
+    course: 'bca',
+    city: 'dxg'
+  },
+  {
+    _id: ObjectId('66dfe9f556d0d687272710bd'),
+    name: 'harish',
+    age: 22,
+    course: 'iti',
+    city: 'bsl'
+  },
+  {
+    _id: ObjectId('66dfe9f556d0d687272710be'),
+    name: 'durgesh',
+    age: 21,
+    course: 'it',
+    city: 'cns'
+  }
+]
+durgesh> db.durgesh.find({ age:{$gt:21}})                        // greater than
+[
+  {
+    _id: ObjectId('66dfe9f556d0d687272710bc'),
+    name: 'atharv',
+    age: 23,
+    course: 'bca',
+    city: 'dxg'
+  },
+  {
+    _id: ObjectId('66dfe9f556d0d687272710bd'),
+    name: 'harish',
+    age: 22,
+    course: 'iti',
+    city: 'bsl'
+  }
+]
+
+
+durgesh> db.durgesh.find({ age:{$lt:23}})             // less than
+
+
+[
+  {
+    _id: ObjectId('66dfe9f556d0d687272710bd'),
+    name: 'harish',
+    age: 22,
+    course: 'iti',
+    city: 'bsl'
+  }
+]
+
+durgesh> db.durgesh.find({ age:{$lte:23}})              // less than equal to
+
+
+[
+  {
+    _id: ObjectId('66dfe9f556d0d687272710bc'),
+    name: 'atharv',
+    age: 23,
+    course: 'bca',
+    city: 'dxg'
+  },
+ 
+]
+durgesh> db.durgesh.find({ age:{$gte:21}})          // greater than equal to
+[
+  {
+    _id: ObjectId('66dfe9f556d0d687272710bc'),
+    name: 'atharv',
+    age: 23,
+    course: 'bca',
+    city: 'dxg'
+  }]
+
+durgesh> db.durgesh.find({ age:{$ne:21}})           // not 
+[
+  {
+    _id: ObjectId('66dfe9f556d0d687272710bc'),
+    name: 'atharv',
+    age: 23,
+    course: 'bca',
+    city: 'dxg'
+  },
+  ]
+durgesh> db.durgesh.find({ age:{$eq:22}})       // equal to
+[
+  {
+    _id: ObjectId('66dfe9f556d0d687272710bd'),
+    name: 'harish',
+    age: 22,
+    course: 'iti',
+    city: 'bsl'
+  }
+]
+
+durgesh> db.durgesh.find( { $and: [ { age:{$gt:22}}, { city:"dxg"} ] })              // and operation
+[
+  {
+    _id: ObjectId('66dfe9f556d0d687272710bc'),
+    name: 'atharv',
+    age: 23,
+    course: 'bca',
+    city: 'dxg'
+  }
+]
+durgesh> db.durgesh.find( { $or: [ { age:{$gt:22}}, { city:"dxg"} ] })                        // or operation
+[
+  {
+    _id: ObjectId('66dfe9f556d0d687272710bc'),
+    name: 'atharv',
+    age: 23,
+    course: 'bca',
+    city: 'dxg'
+  }
+]
+ 
+
+durgesh> db.durgesh.find( { $nor: [ { age:{$gte:23}}, { city:"dxg"} ] })       // not operator
+[
+  {
+    _id: ObjectId('66dfe9f556d0d687272710bd'),
+    name: 'harish',
+    age: 22,
+    course: 'iti',
+    city: 'bsl'
+  },
+  {
+    _id: ObjectId('66dfe9f556d0d687272710be'),
+    name: 'durgesh',
+    age: 21,
+    course: 'it',
+    city: 'cns'
+  }
+]
+
+
+harish> db.a.updateOne({ name: "y"}, {$set: { name: "x"} } )                                    // upadate only one data
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+
+harish> db.a.deleteOne({name:"x"})                                                                       // delete one record only 
+{ acknowledged: true, deletedCount: 1 }
+
+
+harish> db.a.deleteMany({})
+{ acknowledged: true, deletedCount: 1 }                                                                 // delete many records
+
+
+
+
+

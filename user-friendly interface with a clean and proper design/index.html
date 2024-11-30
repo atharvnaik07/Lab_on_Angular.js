@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="todoApp">
+ <head>
+ <meta charset="UTF-8">
+ <title>To-Do List</title>
+ <style>
+ /* CSS */
+ body { font-family: Arial; display: flex; justify-content: center; align-items:
+center; height: 100vh; margin: 0; }
+
+ .container { width: 300px; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+
+ input, button { padding: 10px; margin: 5px; }
+
+ .done { text-decoration: line-through; }
+ </style>
+ <script
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js">
+</script>
+
+<!-- javaScript -->
+<script>
+    angular.module('todoApp', []).controller('TodoController', function() {
+    this.todos = [{text: 'Learn AngularJS', done: false},
+     { text: 'Build a to-do app', done: false}];
+    this.addTodo = () => { if (this.newTodo) { this.todos.push({text:
+   this.newTodo, done: false}); this.newTodo = ''; } };
+    this.removeTask = (index) => { this.todos.splice(index, 1); };
+    });
+   
+    </script>
+   </head>
+    <body ng-controller="TodoController as ctrl">
+    <div class="container">
+   <form ng-submit="ctrl.addTodo()"><input ng-model="ctrl.newTodo" placeholder="Add
+   task"><button>Add</button></form>
+   <ul><li ng-repeat="todo in ctrl.todos"><input type="checkbox" ngmodel="todo.done"><span ng-class="{'done': todo.done}">{{todo.text}}</span><button
+   ng-click="ctrl.removeTask($index)">Remove</button></li></ul>
+   
+    </div>
+   </body>
+   </html>
+   

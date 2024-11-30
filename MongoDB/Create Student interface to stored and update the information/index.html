@@ -1,0 +1,97 @@
+<!DOCTYPE html> 
+<html lang="en" ng-app="studentApp"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initialscale=1.0"> 
+    <title>Student Manager</title> 
+    <script 
+src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"> </script>     <script>         const app = angular.module('studentApp', []);   app.controller('studentController', function($scope, $http) { 
+            $scope.students = []; 
+            $scope.newStudent = {}; 
+ 
+            $scope.editStudent = null; 
+            // Load students 
+            $scope.loadStudents = function() { 
+                $http.get('http://localhost:3000/students') 
+                    .then(function(response) { 
+                        $scope.students = response.data; 
+                    }); 
+            }; 
+          // Add student 
+            $scope.addStudent = function() { 
+                $http.post('http://localhost:3000/students', $scope.newStudent) 
+                    .then(function(response) { 
+                        $scope.loadStudents(); 
+                        $scope.newStudent = {}; // Clear the form 
+                    }); 
+         // Edit student 
+            $scope.editStudentData = function(student) { 
+                $scope.editStudent = angular.copy(student); 
+            }; 
+  
+            // Update student 
+            $scope.updateStudent = function() { 
+                
+$http.put(`http://localhost:3000/students/${$scope.editStudent._id}`, $scope.editStudent).then(function(response) { 
+                        $scope.loadStudents(); 
+                        $scope.editStudent = null; // Clear the edit form 
+                    }); 
+ 
+            }; 
+  
+            // Delete student 
+            $scope.deleteStudent = function(id) { 
+                $http.delete(`http://localhost:3000/students/${id}`) 
+                    .then(function(response) { 
+                        $scope.loadStudents(); 
+                    }); 
+            }; 
+                            // Initialize 
+            $scope.loadStudents(); 
+        }; 
+    </script> 
+</head> 
+<body ng-controller="studentController"> 
+    <h1>Student Manager</h1> 
+     <div> 
+        <h2>Add New Student</h2> 
+        <form ng-submit="addStudent()"> 
+            <label>Name:</label> 
+            <input type="text" ng-model="newStudent.name" required><br> 
+            <label>Age:</label> 
+            <input type="number" ng-model="newStudent.age" required><br> 
+            <label>Course:</label> 
+            <input type="text" ng-model="newStudent.course" required><br> 
+            <button type="submit">Add Student</button> 
+        </form> 
+    </div> 
+ 
+ 
+   <div> 
+ 
+        <h2>Students</h2> 
+        <ul> 
+            <li ng-repeat="student in students"> 
+                <strong>{{ student.name }}</strong> - Age: {{ student.age }} - Course: {{ student.course }} 
+                <button ng-click="editStudentData(student)">Edit</button> 
+                <button ng-click="deleteStudent(student._id)">Delete</button> 
+            </li> 
+        </ul> 
+ 
+    </div> 
+     <div ng-if="editStudent"> 
+ 
+        <h2>Edit Student</h2> 
+        <form ng-submit="updateStudent()"> 
+            <label>Name:</label> 
+ 
+            <input type="text" ng-model="editStudent.name" required><br> 
+            <label>Age:</label> 
+            <input type="number" ng-model="editStudent.age" required><br> 
+            <label>Course:</label> 
+            <input type="text" ng-model="editStudent.course" required><br> 
+            <button type="submit">Update Student</button> 
+        </form> 
+    </div> 
+</body> 
+</html>
